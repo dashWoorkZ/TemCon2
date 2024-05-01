@@ -1,53 +1,45 @@
 #!/usr/bin/env python
 from tkinter import *
 import tkinter as tk
-import requests
-from tkinter import messagebox
 from tkinter import ttk
 from PIL import ImageTk, Image
 
+# Required for APIKEY
+# ===============================
+import requests                #=
+from tkinter import messagebox #=
+# ===============================
+
 #Main Window
 window = tk.Tk()
-window.title("TemCon 2")
-window.geometry("310x350")
+
+# Center The Main Program Window When Launched
+width = 310
+height = 350
+x = (window.winfo_screenwidth()//2)-(width//2)
+y = (window.winfo_screenheight()//2)-(height//2)
+window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+
+window.title("TemCon 2.1")
+window.appearance_mode('dark')
 window.configure(background="burlywood")
 style=ttk.Style()   # ttk Style Library
-menu = tk.Menu(window)
+menu = tk.Menu(window, background="antiquewhite")
 style.theme_use("clam")
 
 
 # ================================================================================================================================================================
-# ================================================= Start of Live Conversion Styling =============================================================================
+# ================================================= Start of Conversion Styling =============================================================================
 # ================================================================================================================================================================
 
 # Frames
 # ======
-style.configure("temconLight.TFrame",  relief=tk.SUNKEN,takefocus=False, background="burlywood")
-style.configure("temconDark.TFrame",  relief=tk.SUNKEN,takefocus=False, background="#519fd2")
 
-style.configure("convertedFrameLight.TFrame",  relief=tk.SUNKEN, takefocus=False, background="burlywood")
-style.configure("convertedFrameDark.TFrame",  relief=tk.SUNKEN, takefocus=False, background="#ffff00")
+style.configure("weatherFrameLight.TFrame", relief=tk.FLAT, takefocus=False, bd=0, highlightthickness=5,bg="#00ffff", fg="#347898", background="#4c7588", foreground="burlywood", highlightbackground='#8fbc8f', highlightcolor='#dd8929', anchor="center")
+style.configure("weatherFrameDark.TFrame", relief=tk.FLAT, takefocus=False, bd=0, highlightthickness=5,  bg="#347898", fg="#00ffff", background="burlywood", foreground="#4c7588", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
 
-style.configure("tempResponseFrameLight.TFrame",  relief=tk.SUNKEN, takefocus=False, background="burlywood")
-style.configure("tempResponseFrameDark.TFrame",  relief=tk.SUNKEN, takefocus=False, background="burlywood")
-
-style.configure("lawfulLight.TFrame",  relief=tk.SUNKEN,takefocus=False, background="#ffe4c4")
-style.configure("lawfulDark.TFrame",  relief=tk.SUNKEN,takefocus=False, background="burlywood")
-
-style.configure("tempResponseFrameLight.TFrame",  relief=tk.SUNKEN,takefocus=False, background="#347898")
-style.configure("tempResponseFrameDark.TFrame",  relief=tk.SUNKEN,takefocus=False, background="burlywood")
-
-style.configure("scalesResponseFrameLight.TFrame", relief=tk.SUNKEN, takefocus=False,  highlightthickness=5,bg="#00ffff", fg="#347898", background="burlywood", foreground="#347898", highlightbackground='#8fbc8f', highlightcolor='#dd8929', anchor="center")
-style.configure("scalesResponseFrameDark.TFrame", relief=tk.SUNKEN, takefocus=False,  highlightthickness=5,  bg="#347898", fg="#00ffff", background="burlywood", foreground="burlywood", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
-
-style.configure("liveLight.TFrame", takefocus=False, highlightthickness=5,bg="#00ffff", fg="#347898", background="burlywood", foreground="#4c7588", highlightbackground='#8fbc8f', highlightcolor='#dd8929', anchor="center")
-style.configure("liveDark.TFrame", takefocus=False,  highlightthickness=5,  bg="#347898", fg="#00ffff", background="#ffff00", foreground="#70c5c2", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
-
-style.configure("weatherFrameLight.TFrame", relief=tk.SUNKEN, takefocus=False, bd=5, highlightthickness=5,bg="#00ffff", fg="#347898", background="#4c7588", foreground="#1e90ff", highlightbackground='#8fbc8f', highlightcolor='#dd8929', anchor="center")
-style.configure("weatherFrameDark.TFrame", relief=tk.SUNKEN, takefocus=False, bd=5, highlightthickness=5,  bg="#347898", fg="#00ffff", background="burlywood", foreground="#4c7588", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
-
-style.configure("heroFrameLight.TFrame", relief=tk.SUNKEN, takefocus=False,  highlightthickness=5,bg="#00ffff", fg="#347898", background="#4c7588", foreground="#1e90ff", highlightbackground='#8fbc8f', highlightcolor='#dd8929', anchor="center")
-style.configure("heroFrameDark.TFrame", relief=tk.SUNKEN, takefocus=False,  highlightthickness=5,  bg="#347898", fg="#00ffff", background="#559492", foreground="#4c7588", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
+style.configure("heroFrameLight.TFrame", relief=tk.FLAT, takefocus=False,  highlightthickness=0,bg="#00ffff", fg="#347898", background="#4c7588", foreground="#1e90ff", highlightbackground='#8fbc8f', highlightcolor='#dd8929', anchor="center")
+style.configure("heroFrameDark.TFrame", relief=tk.FLAT, takefocus=False,  highlightthickness=0,  bg="#347898", fg="#00ffff", background="#559492", foreground="#4c7588", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
 
 # Labels
 # ======
@@ -57,20 +49,20 @@ style.configure("scalesDark.TLabel",relief=tk.RAISED, direction="below", activeb
 style.configure("temconLight.TLabel", font=("Times New Roman", 12, "bold"), background="#bb9f6a", foreground="#70c5c2", highlightbackground='#ffa500',  highlightcolor='#deb887', highlightthickness=3, takefocus=True)
 style.configure("temconDark.TLabel", font=("Times New Roman", 12, "bold"), background="#70c5c2", foreground="#bb9f6a", highlightbackground='#deb887',  highlightcolor='#c97911', highlightthickness=3, takefocus=True)
 
-style.configure("weatherFrameLabelLight.TLabel", relief=tk.SUNKEN, takefocus=False, bd=5, highlightthickness=5,bg="#00ffff", fg="#347898", background="#559492", foreground="#70c5c2", highlightbackground='#8fbc8f', highlightcolor='#dd8929', anchor="center")
-style.configure("weatherFrameLabelDark.TLabel", relief=tk.SUNKEN, takefocus=False, bd=5, highlightthickness=5,  bg="#347898", fg="#00ffff", background="#70c5c2", foreground="#559492", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
+style.configure("weatherFrameLabelLight.TLabel", relief=tk.FLAT, takefocus=False, bd=5, highlightthickness=5,bg="#00ffff", fg="#347898", background="#559492", foreground="#70c5c2", highlightbackground='#8fbc8f', highlightcolor='#dd8929', anchor="center")
+style.configure("weatherFrameLabelDark.TLabel",relief=tk.FLAT, takefocus=False, bd=5, highlightthickness=5,  bg="#347898", fg="#00ffff", background="#70c5c2", foreground="#559492", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
 
-style.configure("heroFrameLabelLight.TLabel", relief=tk.SUNKEN, takefocus=False, bd=5, highlightthickness=5,bg="#00ffff", fg="#347898", background="#559492", foreground="#70c5c2", highlightbackground='#8fbc8f', highlightcolor='#dd8929', anchor="center")
-style.configure("heroFrameLabelDark.TLabel", relief=tk.SUNKEN, takefocus=False, bd=5, highlightthickness=5,  bg="#347898", fg="#00ffff", background="#4f788a", foreground="#00ffff", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
+style.configure("heroFrameLabelLight.TLabel", relief=tk.FLAT, takefocus=False, bd=5, highlightthickness=5,bg="#00ffff", fg="#347898", background="#559492", foreground="#07597f", highlightbackground='#8fbc8f', highlightcolor='#dd8929', anchor="center")
+style.configure("heroFrameLabelDark.TLabel", relief=tk.FLAT, takefocus=False, bd=5, highlightthickness=5,  bg="#347898", fg="#00ffff", background="#4f788a", foreground="#00ffff", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
 
-style.configure("convertedScaleLableFrameLight.TLabel", relief=tk.SUNKEN, takefocus=False, ipadx=5, ipady=5, bg="#8fbc8f", fg="#347898", bd=5, highlightthickness=5, background="#347898", foreground="burlywood", highlightbackground='#8fbc8f', highlightcolor='#fb8604', anchor="center")
-style.configure("convertedScaleLableFrameDark.TLabel", relief=tk.SUNKEN, takefocus=False,  ipadx=5, ipady=5, bg="#70c5c2", fg="#00ffff", bd=5, highlightthickness=5,  background="#fb8604", foreground="#ffff00", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
+style.configure("convertedScaleLableFrameLight.TLabel", relief=tk.FLAT, takefocus=False, ipadx=5, ipady=10, bg="#00ffff", fg="#347898", bd=5, highlightthickness=5, background="#347898", foreground="burlywood", highlightbackground='#ffff00', highlightcolor='#fb8604', anchor="center")
+style.configure("convertedScaleLableFrameDark.TLabel", relief=tk.FLAT, takefocus=False,  ipadx=5, ipady=10, bg="#70c5c2", fg="#00ffff", bd=5, highlightthickness=5,  background="#fb8604", foreground="#ffff00", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
 
-style.configure("livedescLabelLight.TLabel", relief=tk.SUNKEN, takefocus=False, bd=5, highlightthickness=5,bg="#00ffff", fg="#347898", background="#4c7588", foreground="#6b9ac9", highlightbackground='#8fbc8f', highlightcolor='#dd8929', anchor="center")
-style.configure("livedescLabelDark.TLabel", relief=tk.SUNKEN, takefocus=False, bd=5, highlightthickness=5,  bg="#347898", fg="#00ffff", background="#fb8604", foreground="#ffff00", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
+style.configure("livedescLabelLight.TLabel", relief=tk.FLAT, takefocus=False, bd=5, highlightthickness=5,bg="#00ffff", fg="#347898", background="#4c7588", foreground="#6b9ac9", highlightbackground='#8fbc8f', highlightcolor='#dd8929', anchor="center")
+style.configure("livedescLabelDark.TLabel", relief=tk.FLAT, takefocus=False, bd=5, highlightthickness=5,  bg="#347898", fg="#00ffff", background="#fb8604", foreground="#ffff00", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
 
-style.configure("livedescLabelLight1.TLabel", relief=tk.SUNKEN, takefocus=False, font=("Times New Roman", 12, "bold"), highlightthickness=5 ,bg="#00ffff", fg="#347898", background="#347898", foreground="#70c5c2", highlightbackground='#8fbc8f', highlightcolor='#dd8929', anchor="center")
-style.configure("livedescLabelDark1.TLabel", relief=tk.SUNKEN, takefocus=False, font=("Times New Roman", 12, "bold"), highlightthickness=5,  bg="#347898", fg="#00ffff", background="#ffff00", foreground="#fb8604", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
+style.configure("livedescLabelLight1.TLabel", relief=tk.FLAT, takefocus=False, font=("Times New Roman", 12, "bold"), highlightthickness=5 ,bg="#00ffff", fg="#347898", background="#347898", foreground="#70c5c2", highlightbackground='#8fbc8f', highlightcolor='#dd8929', anchor="center")
+style.configure("livedescLabelDark1.TLabel", relief=tk.FLAT, takefocus=False, font=("Times New Roman", 12, "bold"), highlightthickness=5,  bg="#347898", fg="#00ffff", background="#ffff00", foreground="#fb8604", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
 
 style.configure("lawfulLight.TLabel",relief=tk.RAISED, font=("Times New Roman", 12, "bold"), background="#ffe4c4", foreground="#5c3608", highlightbackground='#ffa500', pady=10, highlightcolor='#deb887', highlightthickness=3, takefocus=True)
 style.configure("lawfulDark.TLabel",relief=tk.RAISED, font=("Times New Roman", 12, "bold"), background="#5c3608", foreground="#ffe4c4", highlightbackground='#deb887', pady=10, highlightcolor='#c97911', highlightthickness=3, takefocus=True)
@@ -81,14 +73,24 @@ style.configure("tcttkDark.TLabel",relief=tk.RAISED, font=("Times New Roman", 12
 style.configure("convertedScaleLableFrameLableLight.TLabel",relief=tk.RAISED, font=("Times New Roman", 12, "bold"),  ipadx=5, ipady=10, background="#4f788a", foreground="#00ffff", highlightbackground='##ffebcd', highlightcolor='#48d1cc', highlightthickness=3, takefocus=True)
 style.configure("convertedScaleLableFrameLableDark.TLabel",relief=tk.RAISED, font=("Times New Roman", 12, "bold"), ipadx=5, ipady=10, background="#fb8604", foreground="#ffff00",  highlightbackground='#48d1cc', highlightcolor='#ffebcd', highlightthickness=3, takefocus=True)
 
-style.configure("privacyLight.TLabel", relief=tk.SUNKEN, takefocus=False, bd=5, highlightthickness=5,bg="#00ffff", fg="#347898", background="#70c5c2", foreground="#347898", highlightbackground='##ffebcd', highlightcolor='#48d1cc', anchor="center")
-style.configure("privacyDark.TLabel", relief=tk.SUNKEN, takefocus=False, bd=5, highlightthickness=5,  bg="#347898", fg="#00ffff", background="#347898", foreground="#70c5c2", highlightbackground='#48d1cc', highlightcolor='#ffebcd', anchor="center")
+style.configure("privacyLight.TLabel", relief=tk.FLAT, takefocus=False, bd=5, highlightthickness=5,bg="#00ffff", fg="#347898", background="#70c5c2", foreground="#347898", highlightbackground='##ffebcd', highlightcolor='#48d1cc', anchor="center")
+style.configure("privacyDark.TLabel", relief=tk.FLAT, takefocus=False, bd=5, highlightthickness=5,  bg="#347898", fg="#00ffff", background="#347898", foreground="#70c5c2", highlightbackground='#48d1cc', highlightcolor='#ffebcd', anchor="center")
 
-style.configure("temconConToolLight.TLabel", font=("Times New Roman", 12, "bold"), relief=tk.SUNKEN, takefocus=False, bd=5, highlightthickness=5,bg="#00ffff", fg="#347898", background="#4f788a", foreground="#00ffff", highlightbackground='##ffebcd', highlightcolor='#48d1cc', anchor="center")
-style.configure("temconConToolDark.TLabel", font=("Times New Roman", 12, "bold"), relief=tk.SUNKEN, takefocus=False, bd=5, highlightthickness=5,  bg="#347898", fg="#00ffff", background="#fb8604", foreground="#ffff00",highlightbackground='#48d1cc', highlightcolor='#ffebcd', anchor="center")
+style.configure("temconConToolLight.TLabel", font=("Times New Roman", 11, "bold"), relief=tk.SUNKEN, takefocus=False, bd=(5, 0, 5, 0), highlightthickness=5,bg="#00ffff", fg="#347898", background="#4f788a", foreground="#00ffff", highlightbackground='##ffebcd', highlightcolor='#48d1cc', anchor="center")
+style.configure("temconConToolDark.TLabel", font=("Times New Roman", 11, "bold"), relief=tk.SUNKEN, takefocus=False, bd=(5, 0, 5, 0), highlightthickness=5,  bg="#347898", fg="#00ffff", background="#fb8604", foreground="#ffff00",highlightbackground='#48d1cc', highlightcolor='#ffebcd', anchor="center")
 
 # Scales Choice Option Menu
-style.configure("ScalesChoiceLight.TLabel",relief=tk.RAISED, direction="below", activebackground="#347898",  activeforeground="#00ffff", font=("Times New Roman", 11, "bold"),  background="#4f788a", foreground="#00ffff", highlightbackground='##ffebcd', highlightcolor='#48d1cc', highlightthickness=3, takefocus=True, justify="center", anchor="center")
+style.configure("ScalesChoiceLight.TLabel",relief=tk.RAISED, direction="below", activebackground="#4f788a",  activeforeground="#00ffff", font=("Times New Roman", 11, "bold"),  background="#4f788a", foreground="#00ffff", highlightbackground='#4f788a', highlightcolor='#48d1cc', highlightthickness=3, takefocus=True, justify="center", anchor="center")
+style.configure("ScalesChoiceDark.TLabel",relief=tk.RAISED, direction="below", activebackground="#00ffff",  activeforeground="#347898", font=("Times New Roman", 11, "bold"),  background="#fb8604", foreground="#ffff00",  highlightbackground='#48d1cc', highlightcolor='#ffebcd', highlightthickness=3, takefocus=True, justify="center", anchor="center")
+
+style.configure("selectedScaleLableFrameLight.TLabel", relief=tk.SUNKEN, takefocus=False, ipadx=5, ipady=5, bg="#8fbc8f", fg="#347898", bd=5, highlightthickness=5, background="#ffff00", foreground="#347898", highlightbackground='#8fbc8f', highlightcolor='#fb8604', anchor="center")
+style.configure("selectedScaleLableFrameDark.TLabel", relief=tk.SUNKEN, takefocus=False,  ipadx=5, ipady=5, bg="#70c5c2", fg="#00ffff", bd=5, highlightthickness=5,  background="#347898", foreground="#ffff00", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
+style.configure("selectedScaleLableFrameLabelLight.TLabel",relief=tk.RAISED, direction="below", activebackground="#347898",  activeforeground="#00ffff", font=("Times New Roman", 11, "bold"),  background="#00ffff", foreground="#0a3f7c", highlightbackground='##ffebcd', highlightcolor='#48d1cc', highlightthickness=3, takefocus=True, justify="center", anchor="center")
+style.configure("selectedScaleLableFrameLabelDark.TLabel",relief=tk.RAISED, direction="below", activebackground="#00ffff",  activeforeground="#347898", font=("Times New Roman", 11, "bold"),  background="#4f788a", foreground="#00ffff",  highlightbackground='#48d1cc', highlightcolor='#ffebcd', highlightthickness=3, takefocus=True, justify="center", anchor="center")
+style.configure("convScalesChoiceLight.TLabel",relief=tk.RAISED, direction="below", activebackground="#3d9fe0",  activeforeground="#4f788", font=("Times New Roman", 11, "bold"),  background="#4f788a", foreground="#00ffff", highlightbackground='#3d9fe0', highlightcolor='#4f788', highlightthickness=3, takefocus=True, justify="center", anchor="center")
+style.configure("convertedScaleSelected.TLabel",relief=tk.RAISED, direction="below", activebackground="#ffff00",  activeforeground="#3d9fe0", font=("Times New Roman", 11, "bold"),  background="#70d38e", foreground="#008000",  highlightbackground='#48d1cc', highlightcolor='#3d9fe0', highlightthickness=3, takefocus=True, justify="center", anchor="center")
+# Scales Choice Option Menu
+style.configure("tested.TLabel",relief=tk.RAISED, direction="below", font=("Times New Roman", 14, "bold"), activebackground="#4f788a",  activeforeground="#00ffff",  background="#4f788a", foreground="#00ffff", highlightbackground='#4f788a', highlightcolor='#48d1cc', highlightthickness=3, takefocus=True, justify="center", anchor="center")
 style.configure("ScalesChoiceDark.TLabel",relief=tk.RAISED, direction="below", activebackground="#00ffff",  activeforeground="#347898", font=("Times New Roman", 11, "bold"),  background="#fb8604", foreground="#ffff00",  highlightbackground='#48d1cc', highlightcolor='#ffebcd', highlightthickness=3, takefocus=True, justify="center", anchor="center")
 
 
@@ -103,181 +105,27 @@ style.configure("setTempLight.TEntry", background="#4f788a", foreground="#00ffff
 style.configure("setTempDark.TEntry",  background="#fb8604", foreground="#ffff00", insertionwidth=5, insertcolor="#5c3608", font=("Times New Roman", 14, "bold"), selectborderwidth=2, cursor="umbrella", relief=tk.SUNKEN, selectbackground="#f3e1c9", selectforeground="#ec8c15", takefocus=True, fieldbackground="#fb8604", justify=CENTER, bordercolor="#5c3608")
 
 # ================================================================================================================================================================
-# ================================================= End of Live Conversion Styling ===============================================================================
+# ============================================================== Styles Used In This Program =====================================================================
+# ==== Note: Some styles may have attributes with values, that have not been properly assigned, for the most part it is the highlight colors, bg and anchor, i   =
+# ====       find them intrusive with what i had styled, and while i tried to edit them the best i could, i found working with tkinter styling quite annoying in =
+# ====       the vanilla form, so i often left them unfinished while i paid attention to issues, i thought to be of more importance, feel free to edit them as   =
+# ====       you please, i will be looking to update in some form the way in which styles are being applied, as well as some other edits that i hope will make   =
+# ====       the program more stable.    =========================================================================================================================                                                                                                                         ====
 # ================================================================================================================================================================
+style.configure("convertedFrameLight.TFrame",  relief=tk.FLAT, takefocus=False, pady=5, background="#00ffff")
+style.configure("convertedFrameDark.TFrame",  relief=tk.FLAT, takefocus=False, background="#ffff00")
 
-# ================================================================================================================================================================
-# ================================================= Start of Manual Conversion Styling ===========================================================================
-# ================================================================================================================================================================
-# 1
-def ChangeManconv():
-    styles = manconv_frame.cget("style")
-    if styles == "weatherFrameDark.TFrame":
-            temperature_setting_frame.configure(style="weatherFrameLight.TFrame")
-    elif styles == "weatherFrameLight.TFrame":
-            temperature_setting_frame.configure(style="weatherFrameDark.TFrame")
-            breakpoint
+style.configure("lawfulLight.TFrame",  relief=tk.FLAT,takefocus=False, background="#ffe4c4")
+style.configure("lawfulDark.TFrame",  relief=tk.FLAT,takefocus=False, background="burlywood")
 
+style.configure("liveconvDark.TFrame", relief=tk.FLAT, takefocus=False, highlightthickness=0,bg="#00ffff", fg="#347898", background="#4f788a", foreground="#70c5c2", highlightbackground='#8fbc8f', highlightcolor='#dd8929', anchor="center")
+style.configure("liveconvLight.TFrame", relief=tk.FLAT, takefocus=False,  highlightthickness=0,  bg="#347898", fg="#00ffff", background="#70c5c2", foreground="4f788a", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
 
-# 2
-def ChangeTempFrame():
-    styles = temperature_setting_frame.cget("style")
-    if styles == "convertedFrameDark.TFrame":
-            temperature_setting_frame.configure(style="convertedFrameLight.TFrame")
-    elif styles == "convertedFrameLight.TFrame":
-            temperature_setting_frame.configure(style="convertedFrameDark.TFrame")
-            breakpoint
-
-
-# 3
-def changeScales():
-    styles = scales.cget("style")
-    if styles =="scalesDark.TLabel":
-            scales.configure(style="scalesLight.TLabel")
-    elif styles == "scalesLight.TLabel":
-            scales.configure(style="scalesDark.TLabel")
-            breakpoint
-
-
-# 4
-def changeSSB():
-    styles = scaleSet_button.cget("style")
-    if styles == "scaleSetButtonDark.TButton":
-            scaleSet_button.configure(style="scaleSetButtonLight.TButton")
-    elif styles == "scaleSetButtonLight.TButton":
-            scaleSet_button.configure(style="scaleSetButtonDark.TButton")
-            breakpoint
-
-
-# 5
-def changeScaleTemp():
-    styles = scaleTemp.cget("style")
-    if styles == "setTempDark.TEntry":
-            scaleTemp.configure(style="setTempLight.TEntry")
-    elif styles == "setTempLight.TEntry":
-            scaleTemp.configure(style="setTempDark.TEntry")
-            breakpoint
-
-
-# 6
-def changeSCL():
-    styles = scaleChoice_label.cget("style")
-    if styles == "convertedScaleLableFrameLableDark.TLabel":
-            scaleChoice_label.configure(style="convertedScaleLableFrameLableLight.TLabel")
-    elif styles == "convertedScaleLableFrameLableLight.TLabel":
-            scaleChoice_label.configure(style="convertedScaleLableFrameLableDark.TLabel")
-            breakpoint
-
-
-
-# 7
-def changeSRF():
-    styles = scales_response_frame.cget("style")
-    if styles == "scalesResponseFrameDark.TFrame":
-            scales_response_frame.configure(style="scalesResponseFrameLight.TFrame")
-    elif styles == "scalesResponseFrameLight.TFrame":
-            scales_response_frame.configure(style="scalesResponseFrameDark.TFrame")
-            breakpoint
-
-
-# 8
-def changeRLF1():
-    styles = converted_scale_one_labelframe.cget("style")
-    if styles == "convertedScaleLableFrameLableDark.TLabel":
-                converted_scale_one_labelframe_label.configure(style="convertedScaleLableFrameLableLight.TLabel")
-    elif styles == "convertedScaleLableFrameLableLight.TLabel":
-            converted_scale_one_labelframe.configure(style="convertedScaleLableFrameLableDark.TLabel")
-            breakpoint
-
-# 9
-def changeRLF2():
-    styles = converted_scale_two_labelframe.cget("style")
-    if styles == "convertedScaleLableFrameLableDark.TLabel":
-                converted_scale_two_labelframe.configure(style="convertedScaleLableFrameLableLight.TLabel")
-    elif styles == "convertedScaleLableFrameLableLight.TLabel":
-            converted_scale_two_labelframe.configure(style="convertedScaleLableFrameLableDark.TLabel")
-            breakpoint
-
-
-
-# 10
-def changeRLF3():
-    styles = converted_scale_three_labelframe.cget("style")
-    if styles == "convertedScaleLableFrameLableDark.TLabel":
-                converted_scale_three_labelframe.configure(style="convertedScaleLableFrameLableLight.TLabel")
-    elif styles == "convertedScaleLableFrameLableLight.TLabel":
-            converted_scale_three_labelframe.configure(style="convertedScaleLableFrameLableDark.TLabel")
-            breakpoint
-
-
-
-# 11
-def changeRLF4():
-    styles = converted_scale_four_labelframe.cget("style")
-    if styles == "convertedScaleLableFrameLableDark.TLabel":
-                converted_scale_four_labelframe.configure(style="convertedScaleLableFrameLableLight.TLabel")
-    elif styles == "convertedScaleLableFrameLableLight.TLabel":
-            converted_scale_four_labelframe.configure(style="convertedScaleLableFrameLableDark.TLabel")
-            breakpoint
-
-
-# 12
-def changeResponse1():
-    styles = converted_scale_one_labelframe_label.cget("style")
-    if styles == "convertedScaleLableFrameLableDark.TLabel":
-                converted_scale_one_labelframe_label.configure(style="convertedScaleLableFrameLableLight.TLabel")
-    elif styles == "convertedScaleLableFrameLableLight.TLabel":
-            converted_scale_one_labelframe_label.configure(style="convertedScaleLableFrameLableDark.TLabel")
-            breakpoint
-
-
-
-# 13
-def changeResponse2():
-    styles = converted_scale_two_labelframe_label.cget("style")
-    if styles == "convertedScaleLableFrameLableDark.TLabel":
-                converted_scale_two_labelframe_label.configure(style="convertedScaleLableFrameLableLight.TLabel")
-    elif styles == "convertedScaleLableFrameLableLight.TLabel":
-            converted_scale_two_labelframe_label.configure(style="convertedScaleLableFrameLableDark.TLabel")
-            breakpoint
-
-
-
-# 14
-def changeResponse3():
-    styles = converted_scale_three_labelframe_label.cget("style")
-    if styles == "convertedScaleLableFrameLableDark.TLabel":
-                converted_scale_three_labelframe_label.configure(style="convertedScaleLableFrameLableLight.TLabel")
-    elif styles == "convertedScaleLableFrameLableLight.TLabel":
-            converted_scale_three_labelframe_label.configure(style="convertedScaleLableFrameLableDark.TLabel")
-            breakpoint
-
-
-
-# 15
-def changeResponse4():
-    styles = converted_scale_four_labelframe_label.cget("style")
-    if styles == "convertedScaleLableFrameLableDark.TLabel":
-                converted_scale_four_labelframe_label.configure(style="convertedScaleLableFrameLableLight.TLabel")
-    elif styles == "convertedScaleLableFrameLableLight.TLabel":
-            converted_scale_four_labelframe_label.configure(style="convertedScaleLableFrameLableDark.TLabel")
-            breakpoint
-
-
-
-# 16
-def changeResponseF():
-    styles = converted_scales_frame.cget("style")
-    if styles == "scalesResponseFrameDark.TFrame":
-                converted_scales_frame.configure(style="scalesResponseFrameLight.TFrame")
-    elif styles == "scalesResponseFrameLight.TFrame":
-            converted_scales_frame.configure(style="scalesResponseFrameDark.TFrame")
-            breakpoint
-
-
+style.configure("scalesResponseFrameLight.TFrame", relief=tk.FLAT, takefocus=False,  ipady=5, highlightthickness=0,bg="#00ffff", fg="#347898", background="#00ffff", foreground="#347898", highlightbackground='#8fbc8f', highlightcolor='#dd8929', anchor="center")
+style.configure("scalesResponseFrameDark.TFrame", relief=tk.FLAT, takefocus=False,  highlightthickness=0,  bg="#347898", fg="#00ffff", background="#347898", foreground="#00ffff", highlightbackground='#dd8929', highlightcolor='#8fbc8f', anchor="center")
 
 # ================================================================================================================================================================
-# ================================================= End of Manual Conversion Styling =============================================================================
+# ========================================================== End Of Conversion Styling ===========================================================================
 # ================================================================================================================================================================
 
 # info Menu to display the info page
@@ -411,453 +259,6 @@ def clearManualWeather():
         temperature_label.configure(style="livedesclLabelDark.TLabel", font=("Times New Romant", 30, "bold"), text= "", anchor="center")
 
 
-# 17
-def changeTemconProg():
-        styles = temcon_program_frame.cget("style")
-        if styles == "liveLight.TFrame":
-                        temcon_program_frame.configure(style="liveDark.TLabel")
-        elif styles == "liveDark.TFrame":
-                        temcon_program_frame.configure(style="liveLight.TFrame")
-                        breakpoint
-
-
-
-# 18
-def changeTUP():
-        styles = tup_frame.cget("style")
-        if styles == "liveLight.TFrame":
-                        tup_frame.configure(style="liveDark.TFrame")
-        elif styles == "liveDark.TFrame":
-                        tup_frame.configure(style="liveLight.TFrame")
-                        breakpoint
-
-
-
-# 19
-def changeTUPLabel():
-        styles = tup_label_title.cget("style")
-        if styles == "temconConToolLight.TLabel":
-                tup_label_title.configure(style="temconConToolDark.TLabel")
-        elif styles == "temconConToolDark.TLabel":
-                tup_label_title.configure(style="temconConToolLight.TLabel")
-                breakpoint
-
-
-
-# 20
-def changeTemcon():
-        styles =temcon_frame.cget("style")
-        if styles == "temconLight.TFrame":
-                temcon_frame.configure(style="temconDark.TFrame")
-        elif styles == "temconDark.TFrame":
-                temcon_frame.configure(style="temconLight.TFrame")
-                breakpoint
-
-
-
-# 21
-def ChangeTemconLabelframe():
-        styles = temcon_labelframe.cget("style")
-        if styles == "programFrameLight.TLabel":
-                temcon_labelframe.configure(style="programFrameDark.TLabel")
-        elif styles == "programFrameDark.TLabel":
-                temcon_labelframe.configure(style="programFrameLight.TLabel")
-                breakpoint
-
-
-
-# 22
-def ChangeTemconLabelFrameLabel():
-        styles = temcon_labelframe_label.cget("style")
-        if styles == "temconLight.TLabel":
-                temcon_labelframe_label.configure(style="temconDark.TLabel")
-        elif styles == "temconDark.TLabel":
-                temcon_labelframe_label.configure(style="temconLight.TLabel")
-                breakpoint
-
-
-
-# 23
-def ChangeTemconLogoLabel():
-        styles = temcon_logo_label.cget("style")
-        if styles == "temconLight.TLabel":
-                temcon_logo_label.configure(style="temconDark.TLabel")
-        elif styles == "temconDark.TLabel":
-                temcon_logo_label.configure(style="temconLight.TLabel")
-                breakpoint
-
-
-
-# 24
-def ChangeWeatherLabelframe():
-        styles = weather_labelframe.cget("style")
-        if styles == " weatherFrameLabelLight.TLabel":
-                weather_labelframe.configure(style=" weatherFrameLabelDark.TLabel")
-        elif styles == " weatherFrameLabelDark.TLabel":
-                weather_labelframe.configure(style=" weatherFrameLabelLight.TLabel")
-                breakpoint
-
-
-
-# 25
-def ChangeWeatherLabelframeLabel():
-        styles = weather_labelframe_label.cget("style")
-        if styles == " weatherFrameLabelLight.TLabel":
-                weather_labelframe_label.configure(style=" weatherFrameLabelDark.TLabel")
-        elif styles == " weatherFrameLabelDark.TLabel":
-                weather_labelframe_label.configure(style=" weatherFrameLabelLight.TLabel")
-                breakpoint
-
-
-
-# 26
-def ChangeWeatherLogoLabel():
-        styles = weather_logo_label.cget("style")
-        if styles == "temconLight.TLabel":
-                weather_logo_label.configure(style="temconDark.TLabel")
-        elif styles == "temconDark.TLabel":
-                weather_logo_label.configure(style="temconLight.TLabel")
-                breakpoint
-
-
-
-# 27
-def changeHeroFrame():
-        styles = hero_frame.cget("style")
-        if styles == "heroFrameLight.TFrame":
-                hero_frame.configure(style="heroFrameDark.TFrame")
-        elif styles == "heroFrameDark.TFrame":
-                hero_frame.configure(style="heroFrameLight.TFrame")
-                breakpoint
-
-
-
-# 28
-def changeHeroLabel():
-        styles = hero_frame_label.cget("style")
-        if styles == "heroFrameLabelLight.TLabel":
-                hero_frame_label.configure(style="heroFrameLabelDark.TLabel")
-        elif styles == "heroFrameLabelDark.TLabel":
-                hero_frame_label.configure(style="heroFrameLabelLight.TLabel")
-                breakpoint
-
-
-
-# 29
-def changeFeedback():
-        styles = feedback_frame.cget("style")
-        if styles == "heroFrameLight.TFrame":
-                feedback_frame.configure(style="heroFrameDark.TFrame")
-        elif styles == "heroFrameDark.TFrame":
-                feedback_frame.configure(style="heroFrameLight.TFrame")
-                breakpoint
-
-
-
-# 30
-def changeDSSLogo():
-        styles = dss_logo_label.cget("style")
-        if styles == "heroFrameLabelLight.TLabel":
-                dss_logo_label.configure(style="heroFrameLabelDark.TLabel")
-        elif styles == "heroFrameLabelDark.TLabel":
-                dss_logo_label.configure(style="heroFrameLabelLight.TLabel")
-                breakpoint
-
-
-
-# 31
-def changeFeedbackLabel():
-        styles = feedback_frame_label.cget("style")
-        if styles == "heroFrameLabelLight.TLabel":
-                feedback_frame_label.configure(style="heroFrameLabelDark.TLabel")
-        elif styles == "heroFrameLabelDark.TLabel":
-                feedback_frame_label.configure(style="heroFrameLabelLight.TLabel")
-                breakpoint
-
-
-
-# 32
-def changeTRF():
-        styles = temp_response_frame.cget("style")
-        if styles == "tempResponseFrameLight.TFrame":
-                temp_response_frame.configure(style="tempResponseFrameDark.TFrame")
-        elif styles == "tempResponseFrameDark.TFrame":
-                temp_response_frame.configure(style="tempResponseFrameLight.TFrame")
-                breakpoint
-
-
-
-# 33
-def changeDesc():
-        styles = live_desc_frame_label.cget("style")
-        if styles == "livedescLabelLight1.TLabel":
-                live_desc_frame_label.configure(style="livedescLabelDark1.TLabel")
-        elif styles == "livedescLabelDark1.TLabel":
-                live_desc_frame_label.configure(style="livedescLabelLight1.TLabel")
-                breakpoint
-
-
-
-# 34 
-def changeCity():
-        styles = live_city_label.cget("style")
-        if styles == "livedescLabelLight1.TLabel":
-                live_city_label.configure(style="livedescLabelDark1.TLabel")
-        elif styles == "livedescLabelDark1.TLabel":
-                live_city_label.configure(style="livedescLabelLight1.TLabel")
-                breakpoint
-
-
-
-# 35
-def changeLiveTemp():
-        styles = live_temperature_label.cget("style")
-        if styles == "livedescLabelLight.TLabel":
-                live_temperature_label.configure(style="livedescLabelDark.TLabel")
-        elif styles == "livedescLabelDark.TLabel":
-                live_temperature_label.configure(style="livedescLabelLight.TLabel")
-                breakpoint
-
-
- 
-# 36
-def changeTempIcon():
-        styles = live_icon_label.cget("style")
-        if styles == "livedescLabelLight.TLabel":
-                live_icon_label.configure(style="livedescLabelDark.TLabel")
-        elif styles == "livedescLabelDark.TLabel":
-                live_icon_label.configure(style="livedescLabelLight.TLabel")
-                breakpoint
-
-
-
-# 37
-def ChangeTempFrame():
-        styles = temp_frame.cget("style")
-        if styles == "convertedFrameLight.TFrame":
-                temp_frame.configure(style="convertedFrameDark.TFrame")
-        elif styles == "convertedFrameDark.TFrame":
-                temp_frame.configure(style="convertedFrameLight.TFrame")
-                breakpoint
-
-
-
-# 38
-def ChangeConvBtn():
-        styles = cityButton_frame.cget("style")
-        if styles == "convertedFrameLight.TFrame":
-                cityButton_frame.configure(style="convertedFrameDark.TFrame")
-        elif styles == "convertedFrameDark.TFrame":
-                cityButton_frame.configure(style="convertedFrameLight.TFrame")
-                breakpoint
-
-
-
-# 39
-def ChangeCityDescLabel():
-        styles = city_description_label.cget("style")
-        if styles == "convertedScaleLableFrameLight.TLabel":
-                city_description_label.configure(style="convertedScaleLableFrameDark.TLabel")
-        elif styles == "convertedScaleLableFrameDark.TLabel":
-                city_description_label.configure(style="convertedScaleLableFrameLight.TLabel")
-                breakpoint
-
-
-
-# 40
-def changeLiveCityTemp():
-        styles = live_city_temp_entry.cget("style")
-        if styles == "setTempLight.TEntry":
-                live_city_temp_entry.configure(style="setTempDark.TEntry")
-        elif styles == "setTempDark.TEntry":
-                live_city_temp_entry.configure(style="setTempLight.TEntry")
-                breakpoint
-
-
-
-# 41
-def changeLiveCityBtn():
-        styles = live_city_Search_button.cget("style")
-        if styles == "scaleSetButtonLight.TButton":
-                live_city_Search_button.configure(style="scaleSetButtonDark.TButton")
-        elif styles == "scaleSetButtonDark.TButton":
-                live_city_Search_button.configure(style="scaleSetButtonLight.TButton")
-                breakpoint
-
-
-
-# 42
-def changeConvTempFrame():
-        styles = converted_temps_frame.cget("style")
-        if styles == "scalesResponseFrameLight.TFrame":
-                converted_temps_frame.configure(style="scalesResponseFrameDark.TFrame")
-        elif styles == "scalesResponseFrameDark.TFrame":
-                converted_temps_frame.configure(style="scalesResponseFrameLight.TFrame")
-                breakpoint
-
-
-
-# 43
-def changeLiveResponseFrame1():
-        styles = converted_temps_one_labelframe.cget("style")
-        if styles == "convertedScaleLableFrameLight.TLabel":
-                converted_temps_one_labelframe.configure(style="convertedScaleLableFrameDark.TLabel")
-        elif styles == "convertedScaleLableFrameDark.TLabel":
-                converted_temps_one_labelframe.configure(style="convertedScaleLableFrameLight.TLabel")
-                breakpoint
-
-
-
-# 44
-def changeLiveResponseFrame2():
-        styles = converted_temps_two_labelframe.cget("style")
-        if styles == "convertedScaleLableFrameLight.TLabel":
-                converted_temps_two_labelframe.configure(style="convertedScaleLableFrameDark.TLabel")
-        elif styles == "convertedScaleLableFrameDark.TLabel":
-                converted_temps_two_labelframe.configure(style="convertedScaleLableFrameLight.TLabel")
-                breakpoint
-
-
-
-# 45
-def changeLiveResponseFrame3():
-        styles = converted_temps_three_labelframe.cget("style")
-        if styles == "convertedScaleLableFrameLight.TLabel":
-                converted_temps_three_labelframe.configure(style="convertedScaleLableFrameDark.TLabel")
-        elif styles == "convertedScaleLableFrameDark.TLabel":
-                converted_temps_three_labelframe.configure(style="convertedScaleLableFrameLight.TLabel")
-                breakpoint
-
-
-
-# 46
-def changeLiveResponseFrame4():
-        styles = converted_temps_four_labelframe.cget("style")
-        if styles == "convertedScaleLableFrameLight.TLabel":
-                converted_temps_four_labelframe.configure(style="convertedScaleLableFrameDark.TLabel")
-        elif styles == "convertedScaleLableFrameDark.TLabel":
-                converted_temps_four_labelframe.configure(style="convertedScaleLableFrameLight.TLabel")
-                breakpoint
-
-
-
-# 47
-def changeLiveResponse1():
-        styles = converted_temps_one_labelframe_label.cget("style")
-        if styles == "convertedScaleLableFrameLableLight.TLabel":
-                converted_temps_one_labelframe_label.configure(style="convertedScaleLableFrameLableDark.TLabel")
-        elif styles == "convertedScaleLableFrameLableDark.TLabel":
-                converted_temps_one_labelframe_label.configure(style="convertedScaleLableFrameLableLight.TLabel")
-                breakpoint
-
-
-
-# 48
-def changeLiveResponse2():
-        styles = converted_temps_two_labelframe_label.cget("style")
-        if styles == "convertedScaleLableFrameLableLight.TLabel":
-                converted_temps_two_labelframe_label.configure(style="convertedScaleLableFrameLableDark.TLabel")
-        elif styles == "convertedScaleLableFrameLableDark.TLabel":
-                converted_temps_two_labelframe_label.configure(style="convertedScaleLableFrameLableLight.TLabel")
-                breakpoint
-
-
-
-# 49
-def changeLiveResponse3():
-        styles = converted_temps_three_labelframe_label.cget("style")
-        if styles == "convertedScaleLableFrameLableLight.TLabel":
-                converted_temps_three_labelframe_label.configure(style="convertedScaleLableFrameLableDark.TLabel")
-        elif styles == "convertedScaleLableFrameLableDark.TLabel":
-                converted_temps_three_labelframe_label.configure(style="convertedScaleLableFrameLableLight.TLabel")
-                breakpoint
-
-
-
-# 50
-def changeLiveResponse4():
-        styles = converted_temps_four_labelframe_label.cget("style")
-        if styles == "convertedScaleLableFrameLableLight.TLabel":
-                converted_temps_four_labelframe_label.configure(style="convertedScaleLableFrameLableDark.TLabel")
-        elif styles == "convertedScaleLableFrameLableDark.TLabel":
-                converted_temps_four_labelframe_label.configure(style="convertedScaleLableFrameLableLight.TLabel")
-                breakpoint
-
-
-
-# 51
-def changeLiveLawful():
-        styles = lawful_privacy_frame.cget("style")
-        if styles == "lawfulLight.TFrame":
-                        lawful_privacy_frame.configure(style="lawfulDark.TFrame")
-        elif styles == "lawfulDark.TFrame":
-                lawful_privacy_frame.configure(style="lawfulLight.TFrame")
-                breakpoint
-
-
-
-# End of Styles 
-# ==============================================================================================================================
-# I disabled the ChangeStyle function due to malfunctioning widgets, an option to consider for those wishing to script their own
-# ==============================================================================================================================
-
-# Calling the Style 
-
-# def changeStyle():
-#         ChangeManconv()
-#         ChangeTempFrame()
-#         changeScales()
-#         changeSSB()
-#         changeScaleTemp()
-#         changeSCL()
-#         changeSRF()
-#         changeRLF1()
-#         changeRLF2()
-#         changeRLF3()
-#         changeRLF4()
-#         changeResponse1()
-#         changeResponse2()
-#         changeResponse3()
-#         changeResponse4()
-#         changeResponseF()
-#         changeTemconProg()
-#         changeTUP()
-#         changeTUPLabel()
-#         changeTemcon()
-#         ChangeTemconLabelframe()
-#         ChangeTemconLabelFrameLabel()
-#         ChangeTemconLogoLabel()
-#         ChangeWeatherLabelframe()
-#         ChangeWeatherLabelframeLabel()
-#         ChangeWeatherLogoLabel()
-#         changeHeroFrame()
-#         changeHeroLabel()
-#         changeFeedback()
-#         changeDSSLogo()
-#         changeFeedbackLabel()
-#         changeTRF()
-#         changeDesc()
-#         changeCity()
-#         changeLiveTemp()
-#         changeTempIcon()
-#         ChangeTempFrame()
-#         ChangeConvBtn()
-#         ChangeCityDescLabel()
-#         changeLiveCityTemp()
-#         changeLiveCityBtn()
-#         changeConvTempFrame()
-#         changeLiveResponseFrame1()
-#         changeLiveResponseFrame2()
-#         changeLiveResponseFrame3()
-#         changeLiveResponseFrame4()
-#         changeLiveResponse1()
-#         changeLiveResponse2()
-#         changeLiveResponse3()
-#         changeLiveResponse4()
-#         changeLiveLawful()    
-
-
-
 temcon_program_frame = ttk.Frame(master=window)
 temcon_program_frame.configure(style="liveLight.TFrame")
 temcon_program_frame.pack(fill="both", expand=False, side="top", anchor="center")
@@ -880,6 +281,9 @@ temcon_logo = ImageTk.PhotoImage(Image.open("imgs/tc2024Logo_100.png"))
 temcon_logo_label = ttk.Label(master = temcon_labelframe_label,image=temcon_logo)
 temcon_logo_label.configure(style="temconLight.TLabel", anchor="center", justify="center")
 temcon_logo_label.pack(fill="both", expand=False, anchor="center")
+
+
+
 # Openweather
 weather_labelframe = ttk.LabelFrame(master =temcon_frame)
 weather_labelframe.configure(style="weatherFrameLight.TLabel", text="OPENWEATHER")
@@ -893,6 +297,28 @@ weather_logo_label = ttk.Label(master = weather_labelframe_label,image=weather_l
 weather_logo_label.configure(style="temconLight.TLabel", justify="center")
 weather_logo_label.pack(fill="x", expand=False, side="bottom", anchor="center")
 temcon_frame.grid(row=1, column=0, columnspan=4)
+
+# Giving The Frame Solidity
+temcon_labelframe.rowconfigure(0, weight=0)
+temcon_labelframe.rowconfigure(1, weight=1)
+temcon_labelframe.columnconfigure(0, weight=0)
+temcon_labelframe.columnconfigure(1, weight=1)
+
+# Giving The Frame Solidity
+weather_labelframe.rowconfigure(0, weight=0)
+weather_labelframe.rowconfigure(1, weight=1)
+weather_labelframe.columnconfigure(0, weight=0)
+weather_labelframe.columnconfigure(1, weight=1)
+
+# Giving The Frame Solidity
+temcon_frame.rowconfigure(0, weight=1)
+temcon_frame.rowconfigure(1, weight=1)
+temcon_frame.rowconfigure(2, weight=1)
+temcon_frame.rowconfigure(3, weight=1)
+temcon_frame.columnconfigure(0, weight=1)
+temcon_frame.columnconfigure(1, weight=1)
+temcon_frame.columnconfigure(2, weight=1)
+temcon_frame.columnconfigure(3, weight=1)
 
 # Sponsored Advertising Frame
 hero_frame = ttk.Frame(temcon_frame)
@@ -927,35 +353,45 @@ feedback_frame_label.grid(row=0, column=1, pady=5, padx=5, ipadx=10, ipady=5)
 liveconv_frame = ttk.Frame(master=tup_frame)
 liveconv_frame.configure(style="liveLight.TFrame")
 liveconv_frame.grid(row=1, column=0, columnspan=4)
-
 # Openweather Program
 live_report_frame = ttk.Frame(master = liveconv_frame)
 live_report_frame.configure(style="weatherFrameLight.TFrame")
 live_report_frame.pack(fill="both", expand=False, side="top", anchor="n")
-
 # Weather Frame - Temperature Reported and City
 live_temperature = ttk.Frame(master = live_report_frame)
 live_temperature.configure(style="weatherFrameLight.TFrame")
 live_temperature.pack(fill="both", expand=True, side="right", anchor="center")
-
 live_city_label = ttk.Label(master = live_temperature)
 live_city_label.pack(fill="both", expand=True, side="top", anchor="center")
-
 live_temperature_label = ttk.Label(master = live_temperature)
 live_temperature_label.pack(fill="both", expand=True, side="bottom")
-
-
-
 # Description of weather and weather icon
 live_desc_frame = ttk.Frame(master = live_report_frame)
 live_desc_frame.configure(style="weatherFrameLight.TFrame")
 live_desc_frame.pack(fill="both", expand=True, side="left", anchor="center")
-
 live_icon_label = ttk.Label(master = live_desc_frame)
 live_icon_label.pack(fill="x", expand=False, side="top", anchor="center")
-
 live_desc_frame_label = ttk.Label(master = live_desc_frame)
 live_desc_frame_label.pack(fill="x", expand=False, side="bottom", ipady=5) 
+
+# Giving The Frame Solidity
+liveconv_fram.rowconfigure(0, weight=1)
+liveconv_frame.rowconfigure(1, weight=1)
+liveconv_frame.rowconfigure(2, weight=1)
+liveconv_frame.rowconfigure(3, weight=1)
+liveconv_frame.columnconfigure(0, weight=1)
+liveconv_frame.columnconfigure(1, weight=1)
+liveconv_frame.columnconfigure(2, weight=1)
+
+# Giving The Frame Solidity
+tup_frame.rowconfigure(0, weight=1)
+tup_frame.rowconfigure(1, weight=1)
+tup_frame.rowconfigure(2, weight=1)
+tup_frame.rowconfigure(3, weight=1)
+tup_frame.columnconfigure(0, weight=1)
+tup_frame.columnconfigure(1, weight=1)
+tup_frame.columnconfigure(2, weight=1)
+tup_frame.columnconfigure(3, weight=1)
   
     # Attempt at creating a function that gets the city and city temperature 
     # and then displays the city and city temperature and the temperature is used to activate the conversion table
@@ -1091,7 +527,6 @@ weather_icon_label.pack(fill="both", expand=True, side="top", anchor="center")
 description_frame_label = ttk.Label(master = description_frame)
 description_frame_label.pack(fill="x", expand=False, side="bottom", ipady=5, ipadx=5)
 
-
 # Weather Frame - Temperature Reported and City
 weather_frame = ttk.Frame(master = weather_report_frame)
 weather_frame.configure(style="temconDark.TLabel")
@@ -1101,6 +536,23 @@ city_label.pack(fill="both", expand=True, side="top", anchor="center", ipadx=5)
 temperature_label = ttk.Label(master = weather_frame)
 temperature_label.pack(fill="both", expand=True, side="bottom", ipadx=5)
 
+# Giving The Frame Solidity
+weather_report_frame.rowconfigure(0, weight=1)
+weather_report_frame.rowconfigure(1, weight=1)
+weather_report_frame.rowconfigure(2, weight=1)
+weather_report_frame.rowconfigure(3, weight=1)
+weather_report_frame.columnconfigure(0, weight=1)
+weather_report_frame.columnconfigure(1, weight=1)
+weather_report_frame.columnconfigure(2, weight=1)
+
+# Giving The Frame Solidity
+manconv_frame.rowconfigure(0, weight=1)
+manconv_frame.rowconfigure(1, weight=1)
+manconv_frame.rowconfigure(2, weight=1)
+manconv_frame.rowconfigure(3, weight=1)
+manconv_frame.columnconfigure(0, weight=1)
+manconv_frame.columnconfigure(1, weight=1)
+manconv_frame.columnconfigure(2, weight=1)
  
 # This Weather App is brought to you in part by "Alina Chudnova" from her Youtube Video "Create A Weather App using Python | tutorial for Beginners"
 # https://www.youtube.com/watch?v=VaqYFs7Az50
@@ -1290,6 +742,15 @@ converted_scale_four_labelframe_label = ttk.Label(master = converted_scale_four_
 converted_scale_four_labelframe_label.configure(style="convertedScaleLableFrameLableDark.TLabel", text= "", justify="center", width=7)
 converted_scale_four_labelframe_label.pack(fill="both", expand=True, side="bottom", ipady=5)
 
+
+temperature_frame.rowconfigure(0, weight=1)
+temperature_frame.rowconfigure(1, weight=1)
+temperature_frame.rowconfigure(1, weight=1)
+temperature_frame.rowconfigure(3, weight=1)
+temperature_frame.columnconfigure(0, weight=1)
+temperature_frame.columnconfigure(1, weight=1)
+temperature_frame.columnconfigure(1, weight=1)
+temperature_frame.columnconfigure(3, weight=1)
 # ================================================================================================================================================================
 # ================================================= Start of Manual Conversion Layout ============================================================================
 # ================================================================================================================================================================
